@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { User } from '../../Models/app.user.model';
 import { UserService } from '../../services/app.user.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { NumericNonNegativeValidator } from "./../customvalidators/app.custom.validator";
 import { Response } from '@angular/http';
 
 @Component({
@@ -11,8 +13,26 @@ import { Response } from '@angular/http';
 
 export class LoginComponent implements OnInit {
   user: User;
+  frmControl: FormGroup;
   constructor( private serv: UserService, private router: Router, private act: ActivatedRoute ) {
     this.user = new User( 0, '', '', '', '', '', '');
+
+    this.frmControl = new FormGroup({
+      UserName: new FormControl(
+        this.user.Username,
+        Validators.compose([
+          Validators.required,
+          Validators.pattern("[A-Z][A-Z-a-z ]{0,19}"),
+          Validators.compose([NumericNonNegativeValidator.checkSpace])
+        ])
+      ),
+      Password: new FormControl(
+        this.user.Password,
+        Validators.compose([
+          Validators.required 
+        ])
+      )
+    });
   }
 
   ngOnInit(): void {}
