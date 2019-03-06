@@ -8,7 +8,7 @@ import { Response } from '@angular/http';
   selector: 'app-users-component',
   templateUrl: './app.users.view.html'
 })
-export class UsersComponent implements OnInit {
+export class UserComponent implements OnInit {
     user: User;
     users: Array<User>;
     tableHeaders: Array<string>;

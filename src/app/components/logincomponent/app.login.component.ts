@@ -12,7 +12,7 @@ import { Response } from '@angular/http';
 export class LoginComponent implements OnInit {
   user: User;
   constructor( private serv: UserService, private router: Router, private act: ActivatedRoute ) {
-    this.user = new User( 0, '', '', '', '', '', '');
+    this.user = new User( 0, '', '', '', '', '');
   }
 
   ngOnInit(): void {}
@@ -29,7 +29,6 @@ export class LoginComponent implements OnInit {
             console.log('Service Response uid:' + resp.json().uid);
             sessionStorage.setItem('token', resp.json().token);
             this.navigateToAdminDashboard();
-            //this.navigateToUsers();
         },
         error => {
             console.log(`Error occurred ${error}`);
@@ -38,6 +37,6 @@ export class LoginComponent implements OnInit {
   }
 
   navigateToAdminDashboard(): void {
-    this.router.navigate(['admindashboard']);
+    this.router.navigate(['admin-dashboard']);
   }
 }

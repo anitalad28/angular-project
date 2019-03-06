@@ -24,15 +24,21 @@ export class UserService {
       return resp;
   }
 
-  getUsers(): Observable< Response > {
+  getUsers(): Observable<Response> {
     console.log('I am in the get users service ');
-    let resp: Observable< Response >;
-    let header: Headers = new Headers({'Content-Type': 'application/json'});
-    let options: RequestOptions = new RequestOptions();
-    options.headers = header;
 
+    let resp: Observable<Response>;
+    let header: Headers = new Headers({'Content-Type': 'application/json'});
+
+    header.append('Authorization', 'Bearer ' + sessionStorage.getItem('token'));
+    // 2. Define request option for heder
+    // Collection of header values
+    let options: RequestOptions = new RequestOptions();
+
+    options.headers = header;
     resp = this.http.get( `${this.url}/api/users`,
                             options );
     return resp;
-}
+  }
+
 }

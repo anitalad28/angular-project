@@ -3,6 +3,7 @@ import { ModuleWithProviders } from '@angular/core' ;
 import { LoginComponent } from './../components/logincomponent/app.login.component';
 import { AdminDashboardComponent } from './../components/admincomponent/app.admindashboard.component';
 import { UsersComponent } from './../components/usercomponent/app.users.component';
+import { UserComponent } from './../components/usercomponent/app.user.component';
 // import { AppGaurdService } from "../../services/app.test.gaurd.service";
 // import { ErrorComponent } from "./app.error.component";
 
@@ -20,8 +21,9 @@ import { UsersComponent } from './../components/usercomponent/app.users.componen
 const routes: Routes = [
   { path: 'login', component: LoginComponent},
   { path: '', redirectTo: 'login', pathMatch: 'full'},
-  { path: 'admindashboard', component: AdminDashboardComponent},
+  { path: 'admin-dashboard', component: AdminDashboardComponent},
   { path: 'users', component: UsersComponent},
+  { path: 'add-new-user', component: UserComponent},
   // { path: 'about/:id', component:AboutComponent},
   // {
   //     path: 'contact',

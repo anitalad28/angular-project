@@ -12,6 +12,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './components/logincomponent/app.login.component';
 import { AdminDashboardComponent } from './components/admincomponent/app.admindashboard.component';
 import { UsersComponent } from './components/usercomponent/app.users.component';
+import { UserComponent } from './components/usercomponent/app.user.component';
 
 // 4. Import all services
 import { UserService } from './services/app.user.service';
@@ -22,7 +23,8 @@ import { routing } from './routerComponent/app.route.table';
     AppComponent,
     LoginComponent,
     AdminDashboardComponent,
-    UsersComponent
+    UsersComponent,
+    UserComponent
   ],
   imports: [
     BrowserModule,
