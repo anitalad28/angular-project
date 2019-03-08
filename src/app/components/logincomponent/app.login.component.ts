@@ -15,28 +15,25 @@ export class LoginComponent implements OnInit {
   user: User;
   frmControl: FormGroup;
   constructor( private serv: UserService, private router: Router, private act: ActivatedRoute ) {
-<<<<<<< HEAD
+
     this.user = new User( 0, '', '', '', '', '');
-=======
-    this.user = new User( 0, '', '', '', '', '', '');
 
     this.frmControl = new FormGroup({
       UserName: new FormControl(
-        this.user.Username,
+        this.user.UserName,
         Validators.compose([
           Validators.required,
-          Validators.pattern("[A-Z][A-Z-a-z ]{0,19}"),
+          Validators.pattern('[A-Z][A-Z-a-z ]{0,19}'),
           Validators.compose([NumericNonNegativeValidator.checkSpace])
         ])
       ),
       Password: new FormControl(
         this.user.Password,
         Validators.compose([
-          Validators.required 
+          Validators.required
         ])
       )
     });
->>>>>>> 7a79c4dee26ad091d8c8aa5f966f57dccb472569
   }
 
   ngOnInit(): void {}
@@ -45,6 +42,7 @@ export class LoginComponent implements OnInit {
       console.log('I am here' + JSON.stringify(this.user)) ;
 
       this.serv.authUser(this.user).subscribe(
+        console.log( resp.json() );
         (resp: Response) => {
             console.log('Service Response - ' + JSON.stringify(resp.json()) );
             console.log('Service Response message: ' + resp.json().message);
