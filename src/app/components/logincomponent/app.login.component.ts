@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { User } from '../../Models/app.user.model';
+import { Login } from '../../Models/app.login.model';
 import { UserService } from '../../services/app.user.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NumericNonNegativeValidator } from "./../customvalidators/app.custom.validator";
@@ -12,15 +12,14 @@ import { Response } from '@angular/http';
 })
 
 export class LoginComponent implements OnInit {
-  user: User;
-  frmControl: FormGroup;
+  login: Login;
+  loginFrmControl: FormGroup;
   constructor( private serv: UserService, private router: Router, private act: ActivatedRoute ) {
 
-    this.user = new User( 0, '', '', '', '', '');
-
-    this.frmControl = new FormGroup({
+    this.login = new Login( '', '' )
+    this.loginFrmControl = new FormGroup({
       UserName: new FormControl(
-        this.user.UserName,
+        this.login.UserName,
         Validators.compose([
           Validators.required,
           Validators.pattern('[A-Z][A-Z-a-z ]{0,19}'),
@@ -28,7 +27,7 @@ export class LoginComponent implements OnInit {
         ])
       ),
       Password: new FormControl(
-        this.user.Password,
+        this.login.Password,
         Validators.compose([
           Validators.required
         ])
@@ -39,10 +38,11 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {}
 
   authenticateUser(): void {
-      console.log('I am here' + JSON.stringify(this.user)) ;
+      //this.login = this.loginFrmControl.value;
+  console.log('I am here' + JSON.stringify(this.loginFrmControl.value)) ;
 
-      this.serv.authUser(this.user).subscribe(
-        console.log( resp.json() );
+      this.serv.authUser(this.loginFrmControl.value).subscribe(
+        
         (resp: Response) => {
             console.log('Service Response - ' + JSON.stringify(resp.json()) );
             console.log('Service Response message: ' + resp.json().message);

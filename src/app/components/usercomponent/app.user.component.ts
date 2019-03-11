@@ -1,53 +1,85 @@
 import { Component, OnInit } from '@angular/core';
-
-import { User } from './../../Models/app.user.model';
-import { UserService } from './../../services/app.user.service';
+import { User, Roles } from '../../Models/app.user.model';
+//import { Roles } from '../../Models/app.role.model';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Response } from '@angular/http';
+import { UserService } from '../../services/app.user.service';
 
 @Component({
-  selector: 'app-users-component',
-  templateUrl: './app.users.view.html'
+  selector: 'app-new-user',
+  templateUrl: './app.user.view.html'
 })
+
 export class UserComponent implements OnInit {
-    user: User;
-    users: Array<User>;
-    tableHeaders: Array<string>;
+  // error message
+  uniqueUserName: boolean = false;
+  uniqueEmail: boolean = false;
+  uniqueMobile: boolean = false;
 
-    constructor( private serv: UserService) {
-        this.user = new User( 0, '', '', '', '', '');
-        this.users = new Array<User>();
-        this.tableHeaders = Array<string>();
-    }
+  // user model
+  user: User;
+ 
 
-    // The method will be immedicatly invoked after the constructor
-    ngOnInit(): void {
-      // Read all properties of users and push in table then in tableHeader array
-      for(let p in this.user) {
-          if( this.user ){
-            this.tableHeaders.push(p);
-          }
+  // roles for select list
+  roles = Roles;
+
+  // define formgroup
+  newUserForm: FormGroup;
+
+  constructor( private _router: Router, private _newUserService: UserService ) {
+    console.log( 'Roles:-' + Roles );
+    this.user = new User( 0,'', '', '', '', '');
+
+    this.newUserForm = new FormGroup({
+      UserId: new FormControl(this.user.UserName, Validators.required),
+      UserName: new FormControl(this.user.UserName, Validators.required),
+      Password: new FormControl(this.user.Password, Validators.required),
+      EmailAddress: new FormControl(this.user.EmailAddress, Validators.required),      
+      Role: new FormControl(this.user.Role)
+    });
+  }
+
+  ngOnInit() {}
+
+  checkUniqueUserName() {
+    let username = this.newUserForm.value.UserName;
+
+    this._newUserService.uniqueUsernameCheck({ UserName: username }).subscribe(
+      (resp: Response) => {
+        if (resp.json().status == 200) {
+          this.uniqueUserName = true;
+        } else {
+          this.uniqueUserName = false;
+        }
+      },
+      error => {
+        this.uniqueUserName = false;
+        console.log(`Error occurred :==>> ${error}`);
       }
+    );
+  }
 
-        // Make call to
-      this.loadData();
-    }
+  cancel() {}
 
-    loadData(): void {
-        this.serv.getUsers().subscribe(
-            (resp: Response)=>{
-                this.users = resp.json().data;
-                console.log(resp.json().data);
-            },
-           error => {
-               console.log(`Error occurred ${error}`);
-           }
-       );
-    }
+  addNewUser() {
+    let user = {
+      UserId : this.newUserForm.value.UserId,
+      UserName : this.newUserForm.value.UserName,
+      EmailAddress: this.newUserForm.value.EmailAddress,     
+      Password: this.newUserForm.value.Password,
+      Role: this.newUserForm.value.Role
+    };
 
-
-    // getSelectedRow(p:Product):void{
-    //     // 1. Create a deep copy of the selected row
-    //     // 2. Assign that copy to this
-    //     this.product = Object.assign({}, p);
-    // }
+    this._newUserService.createUser(user).subscribe(
+      (resp: Response) => {
+        if (resp.json().status == 200) {
+          this._router.navigate([`/admin-dashboard/users/`]);
+        }
+      },
+      error => {
+        console.log(`Error occurred :==>> ${error}`);
+      }
+    );
+  }
 }

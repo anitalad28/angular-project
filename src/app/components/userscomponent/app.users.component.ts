@@ -32,11 +32,39 @@ export class UsersComponent implements OnInit {
       this.loadData();
     }
 
+    approve(u): void {
+      const usr = { uid: u._id };
+      console.log(usr);
+
+      this.serv.approveUser( usr ).subscribe(
+          (resp: Response)=>{
+             this.loadData();
+          },
+         error => {
+             console.log(`Error occurred ${error}`);
+         }
+      );
+    }
+
+    reject(u): void {
+      const usr = { uid: u._id };
+      console.log(usr);
+
+      this.serv.rejectUser( usr ).subscribe(
+          (resp: Response)=>{
+             this.loadData();
+          },
+         error => {
+             console.log(`Error occurred ${error}`);
+         }
+      );
+    }
+
     loadData(): void {
         this.serv.getUsers().subscribe(
             (resp: Response)=>{
                 this.users = resp.json().data;
-                console.log(resp.json().data);
+                console.log( 'Users: ' + JSON.stringify( resp.json().data ) );
             },
            error => {
                console.log(`Error occurred ${error}`);

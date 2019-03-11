@@ -4,28 +4,32 @@
     <div class="row">
         <div class="col-sm-3">
             <div class="nav-side-menu">
-                <div class="brand">Brand Logo</div>
+                <!-- <div class="brand">Brand Logo</div> -->
+                <div class="brand">Admin</div>
                 <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
                 <div class="menu-list">
                     <ul id="menu-content" class="menu-content collapse out">
-                        <li>
+                        <!-- <li>
                             <a [routerLink]="['../admin-dashboard']">
                                 <i class="fa fa-dashboard fa-lg"></i> Admin Dashboard
                             </a>
+                        </li> -->
+                        <li data-toggle="collapse" data-target="#new" class="collapsed">
+                            <a [routerLink]="['../admin-dashboard/users']"><i class="fa fa-users fa-lg"></i> Users </a>
                         </li>
                         <li data-toggle="collapse" data-target="#new" class="collapsed">
-                            <a [routerLink]="['../users']"><i class="fa fa-car fa-lg"></i> Users <span class="arrow"></span></a>
-                        </li>
-                        <li data-toggle="collapse" data-target="#new" class="collapsed">
-                            <a [routerLink]="['../add-new-user']"><i class="fa fa-car fa-lg"></i> Add New User <span class="arrow"></span></a>
+                            <!-- <a [routerLink]="['../add-new-user']"><i class="fa fa-car fa-lg"></i> Add New User <span class="arrow"></span></a> -->
+                            <a [routerLink]="['../admin-dashboard/add-new-user']"><i class="fa fa-user fa-lg"></i> Add New User </a>
                         </li>
                     </ul>
                 </div>
             </div>
         </div>
         <div class="col-sm-9 col-sm-offset-1">
-            <h1>Welcome To Admin Dashboard</h1>
+            <h1>Welcome To Admin Dashboard </h1>
+            <br /><br /><br /><br /><br /><br />
+            <router-outlet></router-outlet>
         </div>
     </div>
 </div>
-<router-outlet></router-outlet>
+

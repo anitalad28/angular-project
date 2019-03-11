@@ -8,3 +8,5 @@ export class User {
     public Role: string
   ) {}
 }
+
+export const Roles = ['Admin', 'Operator', 'AccessUser'];

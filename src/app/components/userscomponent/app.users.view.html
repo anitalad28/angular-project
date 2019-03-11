@@ -1,0 +1,27 @@
+<div class="container">
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th *ngFor="let c of tableHeaders"> {{ c }} </th>
+                <th> Action </th>
+                <th> Action </th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- <tr *ngFor="let p of products" (click)="getSelectedRow(p)"> -->
+            <tr *ngFor="let u of users">
+                <td *ngFor="let c of tableHeaders"> {{ u[c] }} </td>                    
+                <td>
+                    <input type="button" value="Approve" (click)="approve(u)" class="btn btn-success">&nbsp;
+                    <input type="button" value="Reject" (click)="reject(u)" class="btn btn-danger">
+                </td>
+                <td>
+                    <input type="button" value="Update" class="btn btn-warning">
+                </td>
+                <td>
+                    <input type="button" value="Delete" class="btn btn-warning">
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

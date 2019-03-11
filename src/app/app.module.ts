@@ -11,7 +11,7 @@ import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/logincomponent/app.login.component';
 import { AdminDashboardComponent } from './components/admincomponent/app.admindashboard.component';
-import { UsersComponent } from './components/usercomponent/app.users.component';
+import { UsersComponent } from './components/userscomponent/app.users.component';
 import { UserComponent } from './components/usercomponent/app.user.component';
 
 // 4. Import all services

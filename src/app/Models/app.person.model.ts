@@ -4,7 +4,7 @@ export class Person {
       public FirstName: string,
       public MiddleName: string,
       public LastName: string,
-      public Genders: string,
+      public Gender: string,
       public DateOfBirth: string,
       public Age: string,
       public FlatBunglowNo: string,
@@ -23,3 +23,8 @@ export class Person {
     ) {}
   }
   
+  export const Gender = ["Male", "Female", "Transgender"];
+
+  export const MaritalStatus = [ "Married", "Unmarried", "Divorced", "Widow", "Widower" ];
+  
+  export const Education = [ "PhD", "Post-Graduate", "Under-Graduate", "HSC", "SSC", "Illiterate" ];

@@ -41,4 +41,86 @@ export class UserService {
     return resp;
   }
 
+  approveUser( user ): Observable<Response> {
+    console.log('I am in the approve user service ');
+
+    let resp: Observable<Response>;
+    let header: Headers = new Headers({'Content-Type': 'application/json'});
+
+    header.append('Authorization', 'Bearer ' + sessionStorage.getItem('token'));
+    // 2. Define request option for heder
+    // Collection of header values
+    let options: RequestOptions = new RequestOptions();
+
+    options.headers = header;
+    resp = this.http.put( `${this.url}/api/user/approve`,
+                            JSON.stringify(user),
+                            options );
+
+                           
+    return resp;
+  }
+
+  rejectUser( user ): Observable<Response> {
+    console.log('I am in the reject user service ');
+
+    let resp: Observable<Response>;
+    let header: Headers = new Headers({'Content-Type': 'application/json'});
+
+    header.append('Authorization', 'Bearer ' + sessionStorage.getItem('token'));
+    // 2. Define request option for heder
+    // Collection of header values
+    let options: RequestOptions = new RequestOptions();
+
+    options.headers = header;
+    resp = this.http.put( `${this.url}/api/user/reject`,
+                            JSON.stringify(user),
+                            options );
+
+                           
+    return resp;
+  }
+
+   // unique user name checking
+   uniqueUsernameCheck(uname): Observable<Response> {
+    console.log('I am in the unique user service ');
+
+    let resp: Observable<Response>;
+    let header: Headers = new Headers({'Content-Type': 'application/json'});
+
+    header.append('Authorization', 'Bearer ' + sessionStorage.getItem('token'));
+    // 2. Define request option for heder
+    // Collection of header values
+    let options: RequestOptions = new RequestOptions();
+
+    options.headers = header;
+    resp = this.http.post( `${this.url}/api/user/checkUserName`,
+                            JSON.stringify(uname),
+                            options );
+
+                           
+    return resp;
+  }
+
+  // unique user name checking
+  createUser(user): Observable<Response> {
+    console.log('I am in the Add new user service ');
+
+    let resp: Observable<Response>;
+    let header: Headers = new Headers({'Content-Type': 'application/json'});
+
+    header.append('Authorization', 'Bearer ' + sessionStorage.getItem('token'));
+    // 2. Define request option for heder
+    // Collection of header values
+    let options: RequestOptions = new RequestOptions();
+
+    options.headers = header;
+    resp = this.http.post( `${this.url}/api/user/create`,
+                            JSON.stringify(user),
+                            options );
+
+                           
+    return resp;
+  }
+
 }
