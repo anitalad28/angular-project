@@ -1,206 +1,138 @@
-<div class="container">	
+<div class="container">
 		<div class="container">
 			<div>
 				<h3>Add personal info of User</h3>
 			</div>
 			<div class="card-body">
-                <form class="col-md-8 offset-md-2" name="newPersonForm" [formGroup]="newPersonForm" (submit)="save()">                   
-                    <div class="form-group">
-                      <label for="PersonId">Person Id</label>
-                      <input type="text" name="PersonId" class="form-control" id="PersonUniqueId" value="" [(ngModel)]="PersonUniqueId" formControlName="PersonUniqueId" disabled />
-                    </div>
-                    <div class="row">
-                      <div class="form-group col-md-4">
-                        <label for="FirstName"> First Name </label>
-                        <input type="text" class="form-control" id="FirstName" name="FirstName" autocomplete="off" [(ngModel)]="person.FirstName" formControlName="FirstName" />
-                      </div>                      
-                      <div class="form-group col-md-4">
-                        <label for="MiddleName">Middle Name</label>
-                        <input type="text" class="form-control" id="MiddleName" name="MiddleName" autocomplete="off" [(ngModel)]="person.MiddleName" formControlName="MiddleName" />                        
-                      </div>
-                      <div class="form-group col-md-4">
-                        <label for="LastName">Last Name</label>
-                        <input type="text" class="form-control" id="LastName" name="LastName" autocomplete="off" [(ngModel)]="person.LastName" formControlName="LastName" />                        
-                      </div>
-                    </div>            
-                    <div class="row">
-                      <div class="form-group col-md-6">
-                        <label for="DateOfBirth"> Date of Birth</label>  
-                        <input type="text" class="form-control" id="DateOfBirth" name="DateOfBirth" autocomplete="off" [(ngModel)]="person.DateOfBirth" formControlName="DateOfBirth" />
-                      </div>
-                      <div class="form-group col-md-6">
-                        <label for="Age">Age </label>
-                        <input type="text" class="form-control" id="Age" name="Age" autocomplete="off" [(ngModel)]="person.Age" formControlName="Age" />
-                      </div>
-                    </div>
-            
-                    <div class="row">
-                      <div class="form-group col-md-6">
-                        <label for="Gender">Gender </label>
-                        <select class="form-control" id="Gender" name="Gender" [(ngModel)]="person.Gender" formControlName="Gender" >
-                          <option selected="selected" value="">Please select Gender</option>
-                          <option *ngFor="let g of gender" value="{{ g }}">{{ g }}</option>
-                        </select>
-                      </div>
-                      <div class="form-group col-md-6">                       
-                        <label for="MaritalStatus">MaritalStatus </label>
-                        <select class="form-control" id="MaritalStatues" name="MaritalStatues" [(ngModel)]="person.MaritalStatues" formControlName="MaritalStatues">
-                          <option selected="selected" value="">Please select Marital_Status</option>
-                          <option *ngFor="let m of Marital_Status" value="{{ m }}">{{ m }}</option>
-                        </select>
-                      </div>
-                    </div>
-                    
-                    <div class="form-group">
-                      <label for="Education">Education</label>
-                      <select class="form-control" id="EducationalStatues" name="EducationalStatues" [(ngModel)]="person.EducationalStatues" formControlName="EducationalStatues">
-                        <option selected="selected" value="">Please select Education</option>
-                        <option *ngFor="let e of education" value="{{ e }}">{{ e }}</option>
-                      </select>
-                    </div>
-            
-                    <h4>Address</h4>
-                    <div class="row">
-                      <div class="form-group col-md-6">
-                        <label for="FlatBunglowNo"> Flat or Bunglow Number </label> 
-                        <input type="text" class="form-control" id="FlatBunglowNo" name="FlatBunglowNo" autocomplete="off" [(ngModel)]="person.FlatBunglowNo" formControlName="FlatBunglowNo" />                       
-                        
-                      </div>
-                      <div class="form-group col-md-6">
-                        <label for="SocietyName"> Society Name </label>
-                        <input type="text" class="form-control" id="SocietyName" name="SocietyName" autocomplete="off" [(ngModel)]="person.SocietyName" formControlName="SocietyName" /> 
-                        
-                      </div>
-                      <!-- Area Name-->
-                      <div class="form-group col-md-6">
-                        <label for="StreetAreaName"> Area Name </label>
-                        <input type="text" class="form-control" id="StreetAreaName" name="StreetAreaName" autocomplete="off" [(ngModel)]="person.StreetAreaName" formControlName="StreetAreaName" />
-                      </div>
-                      <!-- {/* Pincode */} -->
-                      <div class="form-group col-md-6">
-                        <label for="Pincode"> Pincode </label>
-                        <input type="text" class="form-control" id="Pincode" name="Pincode" autocomplete="off" [(ngModel)]="person.Pincode" formControlName="Pincode" />
-                      </div>
-                    </div>
-            
-                    <!-- {/* City */} -->
-                    <div class="row">
-                      <div class="form-group col-md-6">
-                        <label for="City"> City</label>
-                        <input type="text" class="form-control" id="City" name="City" autocomplete="off" [(ngModel)]="person.City" formControlName="City" />
-                      </div>
-            
-                      <!-- {/* State */} -->
-                      <div class="form-group  col-md-6">
-                        <label for="State"> State </label>
-                        <input type="text" class="form-control" id="SocietyName" name="SocietyName" autocomplete="off" [(ngModel)]="person.SocietyName" formControlName="SocietyName" />
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="State"
-                          name="State"
-                          autocomplete="off"
-                          [(ngModel)]="person.State"
-                          formControlName="State"
-                        />
-                      </div>
-                    </div>
-            
-                    <h4>Contact</h4>
-                    <div class="row">
-                      <!-- {/* MobileNo */} -->
-                      <div class="form-group col-md-6">
-                        <label for="MobileNo">
-                          Mobile Number
-                        </label>
-                        <input type="text" class="form-control" id="SocietyName" name="SocietyName" autocomplete="off" [(ngModel)]="person.SocietyName" formControlName="SocietyName" />
-                        <input
-                          type="number"
-                          class="form-control"
-                          id="MobileNo"
-                          name="MobileNo"
-                          autocomplete="off"
-                          [(ngModel)]="person.MobileNo"
-                          formControlName="MobileNo"
-                        />
-                      </div>
-            
-                      <!-- {/* PhoneNo */} -->
-                      <div class="form-group col-md-6">
-                        <label for="PhoneNo">Phone Number</label>
-                        <input type="text" class="form-control" id="SocietyName" name="SocietyName" autocomplete="off" [(ngModel)]="person.SocietyName" formControlName="SocietyName" />
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="PhoneNo"
-                          name="PhoneNo"
-                          autocomplete="off"
-                          [(ngModel)]="person.PhoneNo"
-                          formControlName="PhoneNo"
-                        />
-                      </div>
-                    </div>
-            
-                    <!-- {/* BirthSign */} -->
-                    <div class="form-group">
-                      <label for="BirthSign">Birth Sign</label>
-                      <input type="text" class="form-control" id="SocietyName" name="SocietyName" autocomplete="off" [(ngModel)]="person.SocietyName" formControlName="SocietyName" />
-                      <span> (If any)</span>
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="BirthSign"
-                        name="BirthSign"
-                        autocomplete="off"
-                        [(ngModel)]="person.BirthSign"
-                        formControlName="BirthSign"
-                      />
-                    </div>
-                    <!-- {/* PhysicalDisability */} -->
-                    <div class="form-group">
-                      <label for="PhysicalDisability">
-                        Physical Disability
-                      </label>
-                      <span> (If any)</span>
-                      <input type="text" class="form-control" id="SocietyName" name="SocietyName" autocomplete="off" [(ngModel)]="person.SocietyName" formControlName="SocietyName" />
-            
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="PhysicalDisability"
-                        name="PhysicalDisability"
-                        autocomplete="off"
-                        [(ngModel)]="person.PhysicalDisability"
-                        formControlName="PhysicalDisability"
-                      />
-                    </div>
-            
-                    <!-- Button -->
-                    <div class="form-group">
-                      <input
-                        type="button"
-                        value="Cancel"
-                        class="btn btn-danger"
-                        (click)="cancel()"
-                      />
-                      <input
-                        type="submit"
-                        value="Add"
-                        [disabled]="!newPersonForm.valid"
-                        class="btn btn-success"
-                        *ngIf="add"
-                      />
-            
-                      <input
-                        type="submit"
-                        value="Update"
-                        [disabled]="!newPersonForm.valid"
-                        class="btn btn-primary"
-                        *ngIf="update"
-                      />
-                    </div>
-                  </form>
+          <form class="col-md-8 offset-md-2" name="newPersonForm" [formGroup]="newPersonForm" (submit)="save()">
+              <div class="form-group">
+                <label for="PersonId">Person Id</label>
+                <input type="text" name="PersonId" class="form-control" id="PersonUniqueId" value="" [(ngModel)]="PersonUniqueId" formControlName="PersonUniqueId" disabled />
+              </div>
+              <div class="row">
+                <div class="form-group col-md-4">
+                  <label for="FirstName"> First Name </label>
+                  <input type="text" class="form-control" id="FirstName" name="FirstName" autocomplete="off" [(ngModel)]="person.FirstName" formControlName="FirstName" />
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="MiddleName">Middle Name</label>
+                  <input type="text" class="form-control" id="MiddleName" name="MiddleName" autocomplete="off" [(ngModel)]="person.MiddleName" formControlName="MiddleName" />
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="LastName">Last Name</label>
+                  <input type="text" class="form-control" id="LastName" name="LastName" autocomplete="off" [(ngModel)]="person.LastName" formControlName="LastName" />
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-md-6">
+                  <label for="DateOfBirth"> Date of Birth</label>
+                  <input type="text" class="form-control" id="DateOfBirth" name="DateOfBirth" autocomplete="off" [(ngModel)]="person.DateOfBirth" formControlName="DateOfBirth" />
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="Age">Age </label>
+                  <input type="text" class="form-control" id="Age" name="Age" autocomplete="off" [(ngModel)]="person.Age" formControlName="Age" />
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="form-group col-md-6">
+                  <label for="Gender">Gender </label>
+                  <select class="form-control" id="Gender" name="Gender" [(ngModel)]="person.Gender" formControlName="Gender" >
+                    <option selected="selected" value="">Please select Gender</option>
+                    <option *ngFor="let g of gender" value="{{ g }}">{{ g }}</option>
+                  </select>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="MaritalStatus">MaritalStatus </label>
+                  <select class="form-control" id="MaritalStatues" name="MaritalStatues" [(ngModel)]="person.MaritalStatues" formControlName="MaritalStatues">
+                    <option selected="selected" value="">Please select Marital_Status</option>
+                    <option *ngFor="let m of Marital_Status" value="{{ m }}">{{ m }}</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="Education">Education</label>
+                <select class="form-control" id="EducationalStatues" name="EducationalStatues" [(ngModel)]="person.EducationalStatues" formControlName="EducationalStatues">
+                  <option selected="selected" value="">Please select Education</option>
+                  <option *ngFor="let e of education" value="{{ e }}">{{ e }}</option>
+                </select>
+              </div>
+
+              <h4>Address</h4>
+              <div class="row">
+                <div class="form-group col-md-6">
+                  <label for="FlatBunglowNo"> Flat or Bunglow Number </label>
+                  <input type="text" class="form-control" id="FlatBunglowNo" name="FlatBunglowNo" autocomplete="off" [(ngModel)]="person.FlatBunglowNo" formControlName="FlatBunglowNo" />
+
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="SocietyName"> Society Name </label>
+                  <input type="text" class="form-control" id="SocietyName" name="SocietyName" autocomplete="off" [(ngModel)]="person.SocietyName" formControlName="SocietyName" />
+
+                </div>
+                <!-- Area Name-->
+                <div class="form-group col-md-6">
+                  <label for="StreetAreaName"> Area Name </label>
+                  <input type="text" class="form-control" id="StreetAreaName" name="StreetAreaName" autocomplete="off" [(ngModel)]="person.StreetAreaName" formControlName="StreetAreaName" />
+                </div>
+                <!-- {/* Pincode */} -->
+                <div class="form-group col-md-6">
+                  <label for="Pincode"> Pincode </label>
+                  <input type="text" class="form-control" id="Pincode" name="Pincode" autocomplete="off" [(ngModel)]="person.Pincode" formControlName="Pincode" />
+                </div>
+              </div>
+
+              <!-- {/* City */} -->
+              <div class="row">
+                <div class="form-group col-md-6">
+                  <label for="City"> City</label>
+                  <input type="text" class="form-control" id="City" name="City" autocomplete="off" [(ngModel)]="person.City" formControlName="City" />
+                </div>
+
+                <!-- {/* State */} -->
+                <div class="form-group  col-md-6">
+                  <label for="State"> State </label>
+                  <input type="text" class="form-control" id="State" name="State" autocomplete="off" [(ngModel)]="person.State" formControlName="State"/>
+                </div>
+              </div>
+
+              <h4>Contact</h4>
+              <div class="row">
+                <!-- {/* MobileNo */} -->
+                <div class="form-group col-md-6">
+                  <label for="MobileNo"> Mobile Number </label>
+                  <input type="text" class="form-control" id="MobileNo" name="MobileNo" autocomplete="off" [(ngModel)]="person.MobileNo" formControlName="MobileNo" />
+                </div>
+
+                <!-- {/* PhoneNo */} -->
+                <div class="form-group col-md-6">
+                  <label for="PhoneNo">Phone Number</label>
+                  <input type="text" class="form-control" id="PhoneNo" name="PhoneNo" autocomplete="off" [(ngModel)]="person.PhoneNo" formControlName="PhoneNo" />
+
+                </div>
+              </div>
+
+              <!-- {/* BirthSign */} -->
+              <div class="form-group">
+                <label for="BirthSign">Birth Sign</label>
+                <input type="text" class="form-control" id="BirthSign" name="BirthSign" autocomplete="off" [(ngModel)]="person.BirthSign" formControlName="BirthSign" />
+                <span> (If any)</span>
+              </div>
+              <!-- {/* PhysicalDisability */} -->
+              <div class="form-group">
+                <label for="PhysicalDisability"> Physical Disability </label>
+                <span> (If any)</span>
+                <input type="text" class="form-control" id="PhysicalDisability" name="PhysicalDisability" autocomplete="off" [(ngModel)]="person.PhysicalDisability" formControlName="PhysicalDisability" />
+              </div>
+
+              <!-- Button -->
+              <div class="form-group">
+                <input type="button" value="Cancel" class="btn btn-danger" (click)="cancel()" />
+                <input type="submit" value="Add" [disabled]="!newPersonForm.valid" class="btn btn-success" *ngIf="add" />
+                <input type="submit" value="Update" [disabled]="!newPersonForm.valid" class="btn btn-primary" *ngIf="update"/>
+              </div>
+        </form>
 			</div>
 		</div>
-	
 </div>

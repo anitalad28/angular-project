@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { User, Roles } from '../../Models/app.user.model';
-//import { Roles } from '../../Models/app.role.model';
+// import { Roles } from '../../Models/app.role.model';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Response } from '@angular/http';
@@ -12,14 +12,12 @@ import { UserService } from '../../services/app.user.service';
 })
 
 export class UserComponent implements OnInit {
+
   // error message
   uniqueUserName: boolean = false;
-  uniqueEmail: boolean = false;
-  uniqueMobile: boolean = false;
 
   // user model
   user: User;
- 
 
   // roles for select list
   roles = Roles;
@@ -35,7 +33,7 @@ export class UserComponent implements OnInit {
       UserId: new FormControl(this.user.UserName, Validators.required),
       UserName: new FormControl(this.user.UserName, Validators.required),
       Password: new FormControl(this.user.Password, Validators.required),
-      EmailAddress: new FormControl(this.user.EmailAddress, Validators.required),      
+      EmailAddress: new FormControl(this.user.EmailAddress, Validators.required),
       Role: new FormControl(this.user.Role)
     });
   }
@@ -43,7 +41,7 @@ export class UserComponent implements OnInit {
   ngOnInit() {}
 
   checkUniqueUserName() {
-    let username = this.newUserForm.value.UserName;
+    const username = this.newUserForm.value.UserName;
 
     this._newUserService.uniqueUsernameCheck({ UserName: username }).subscribe(
       (resp: Response) => {
@@ -63,10 +61,10 @@ export class UserComponent implements OnInit {
   cancel() {}
 
   addNewUser() {
-    let user = {
+    const user = {
       UserId : this.newUserForm.value.UserId,
       UserName : this.newUserForm.value.UserName,
-      EmailAddress: this.newUserForm.value.EmailAddress,     
+      EmailAddress: this.newUserForm.value.EmailAddress,
       Password: this.newUserForm.value.Password,
       Role: this.newUserForm.value.Role
     };

@@ -1,123 +1,134 @@
-// import { Component, OnInit } from "@angular/core";
-// import { Person } from '../../Models/app.person.model';
-// import { FormGroup, FormControl, Validators } from "@angular/forms";
-// //import { Product, Categories } from "./app.product.model";
-// //import { ProductLogic } from "./app.product.logic";
-// import { NumericNonNegativeValidator } from "./../customvalidators/app.custom.validator";
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { PersonalInfo, Gender, MaritalStatus, EducationalStatues } from '../../Models/app.person.model';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Response } from '@angular/http';
+import { PersonalInfoService } from './../../services/app.personalInfo.service';
 
-// @Component({
-//   selector: "app-personinfo-component",
-//   templateUrl: "app.personinfo.view.html"
-// })
-// export class PersonInfoComponent implements OnInit {
-//   // the OnInit is Component Lifecycle interface
-//   // this provide ngOnInit() method.
-//   person: Person;
-//   //private logic: ProductLogic;
-//  // products: Array<Product>;
-//   //isSaved: boolean;
-//   // categories locally
-//   //categories = Categories;
-//   tableHeaders: Array<string>;
-//   //isChecked: boolean;
-//   //Checked = false;
+@Component({
+  selector: 'app-new-person',
+  templateUrl: './app.personinfo.view.html'
+})
 
-//   // define FormGroup
-//   frmProduct: FormGroup;
-//   constructor() {
-//     this.person = new Person(0, "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", 0);
-//     //this.logic = new ProductLogic();
-//     //this.products = new Array<Product>();
-//     this.tableHeaders = new Array<string>();
-//    // this.isSaved = false;
-//     //this.isChecked = false;
+export class PersonalInfoComponent implements OnInit {
+  // selection data
+  gender = Gender;
+  maritalStatus = MaritalStatus;
+  education = EducationalStatues;
 
-//     // define an instance of FormGroup and map property of mode class
-//     // i.e. Product class with FormControl
-//     this.frmProduct = new FormGroup({
-//       ProductId: new FormControl(
-//         this.person.PersonUniqueId,
-//         Validators.compose([
-//           Validators.required,
-//           Validators.pattern("[0-9]+"),
-//           Validators.minLength(2),
-//           Validators.maxLength(5),
-//           Validators.compose([NumericNonNegativeValidator.checkUniqueId])
-//         ])
-//       ),
-//       ProductName: new FormControl(
-//         this.product.ProductName,
-//         Validators.compose([
-//           Validators.required,
-//           Validators.pattern("[A-Z][A-Z-a-z ]{0,19}"),
-//           Validators.compose([NumericNonNegativeValidator.checkSpace])
-//         ])
-//       ),
-//       CategoryName: new FormControl(
-//         this.product.CategoryName,
-//         Validators.compose([
-//           Validators.required,
-//           Validators.compose([NumericNonNegativeValidator.checkCategory])
-//         ])
-//       ),
+  // model
+  personalInfo: PersonalInfo;
 
-//       Price: new FormControl(
-//         this.product.Price,
-//         Validators.compose([NumericNonNegativeValidator.checkVal])
-//       )
-//     });
-//   }
-//   // the method will be invoked immediately after ctor.
-//   ngOnInit(): void {
-//     // read all properties of Product class and push them in
-//     // tableHeaders array
-//     for (let p in this.product) {
-//       this.tableHeaders.push(p);
-//     }
-//     this.products = this.logic.getProducts();
-//   }
-//   clear(): void {
-//     this.product = new Product(0, "", "", 0,true);
-//   }
-//   save(): void {
-//     // read form values using "formControlName" under fromGroup
-//     this.product = this.frmProduct.value;
-//     this.products = this.logic.saveProduct(this.product);
-//     this.isSaved = false;
-//   }
-//   loadForm(): void {
-//     this.product = new Product(0, "", "", 0,true);
-//     this.isSaved = true;
-//   }
-//   getselectedrow(p: Product): void {
-//     // 1. Create a deep copy of the selected product
-//     // 2. assign that copy to this.product
-//     this.product = Object.assign({}, p);
-//   }
+  // define formgroup
+  personalInfoForm: FormGroup;
 
-//   checkAll(e:any):void{
-//     this.products.map(function (p) {
-//       p.Checked = e.target.checked;
-//     });
-//   }
+  PersonId: string;
 
-//   CheckUncheckHeader(ProductID:number):void {
-//     this.isChecked = true;
-//     for(let p of this.products) {
-//       if (p.ProductId == ProductID ) {
-//         p.Checked = true;
-//        }
-//     }
+  // button control for Add and Update
+  add: boolean;
+  update: boolean;
 
-//     console.log(this.products);
+  constructor( private router: Router, private activatedRoute: ActivatedRoute, private personalInfoService: PersonalInfoService ) {
+    this.add = true;
+    this.update = false;
 
-//     for(let p of this.products) {
-//       console.log('Anita ' + p.ProductId + p.Checked);
-//        if ( !p.Checked ) {
-//          this.isChecked = false;
-//        }
-//     }
-// };
+    this.personalInfo = new PersonalInfo( 0, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0 );
 
+    this.personalInfoForm = new FormGroup({
+      PersonUniqueId: new FormControl(this.personalInfo.PersonUniqueId),
+      FirstName: new FormControl(this.personalInfo.FirstName),
+      MiddleName: new FormControl(this.personalInfo.MiddleName),
+      LastName: new FormControl(this.personalInfo.LastName),
+      Gender: new FormControl(this.personalInfo.Gender),
+      DateOfBirth: new FormControl(this.personalInfo.DateOfBirth),
+      Age: new FormControl(this.personalInfo.Age),
+      FlatBunglowNo: new FormControl(this.personalInfo.FlatBunglowNo),
+      SocietyName: new FormControl(this.personalInfo.SocietyName),
+      StreetAreaName: new FormControl(this.personalInfo.StreetAreaName),
+      City: new FormControl(this.personalInfo.City),
+      State: new FormControl(this.personalInfo.State),
+      Pincode: new FormControl(this.personalInfo.Pincode),
+      PhoneNo: new FormControl(this.personalInfo.PhoneNo),
+      MobileNo: new FormControl(this.personalInfo.MobileNo),
+      PhysicalDisability: new FormControl(this.personalInfo.PhysicalDisability),
+      MaritalStatus: new FormControl(this.personalInfo.MaritalStatus),
+      Education: new FormControl(this.personalInfo.education),
+      BirthSign: new FormControl(this.personalInfo.BirthSign)
+    });
+  }
 
-// }
+  ngOnInit() {
+    this.PersonId = this.activatedRoute.snapshot.params.uid;
+    if (this.activatedRoute.snapshot.params.act !== undefined) {
+      this.add = false;
+      this.update = true;
+
+  //     this.PersonalInfoService.getPersonsById(this.PersonId).subscribe(
+  //       (resp: Response) => {
+  //         if (resp.json().status == 200) {
+  //           const person = resp.json().data[0];
+  //           this.person = new Person(
+  //             this.PersonId,
+  //             person.FullName.FirstName,
+  //             person.FullName.MiddleName,
+  //             person.FullName.LastName,
+  //             person.Gender,
+  //             person.DateOfBirth,
+  //             person.Age,
+  //             person.Address.FlatNumber,
+  //             person.Address.SocietyName,
+  //             person.Address.AreaName,
+  //             person.City,
+  //             person.State,
+  //             person.Pincode,
+  //             person.PhoneNo,
+  //             person.MobileNo,
+  //             person.PhysicalDisability,
+  //             person.MaritalStatus,
+  //             person.Education,
+  //             person.BirthSign,
+  //             0
+  //           );
+  //         }
+  //       },
+  //       error => {
+  //         console.log(`Error occurred :==>> ${error}`);
+  //       }
+  //     );
+  //   }
+  // }
+
+  // cancel() {
+  //   this._router.navigate(['/auth']);
+  // }
+
+  save() {
+   // if (this.add) {
+      this.personalInfo = this.personalInfoForm.value;
+     // this.person.CreatedBy = parseInt(localStorage.getItem('_v_it'));
+      this.personalInfoService.addPersonalInfo(this.person).subscribe(
+        (resp: Response) => {
+          if (resp.json().status == 200) {
+            this._router.navigate(['/auth']);
+          }
+        },
+        error => {
+          console.log(`Error occurred :==>> ${error}`);
+        }
+      );
+    // } else {
+    //   this.person = this.newPersonForm.value;
+    //   this.person.CreatedBy = parseInt(localStorage.getItem('_v_it'));
+    //   this._newPersonService.updatePerson(this.person).subscribe(
+    //     (resp: Response) => {
+    //       if (resp.json().status == 200) {
+    //         this._router.navigate(['/auth']);
+    //       }
+    //     },
+    //     error => {
+    //       console.log(`Error occurred :==>> ${error}`);
+    //     }
+    //   );
+    // }
+  }
+}
