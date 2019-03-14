@@ -8,7 +8,6 @@ import { PersonalInfo } from './../Models/app.person.model';
 })
 
 export class PersonalInfoService {
-  //personalInfo: PersonalInfo;
   url: string;
 
   constructor(private http: Http) {
@@ -16,34 +15,20 @@ export class PersonalInfoService {
   }
 
   addPersonalInfo( personalInfo: PersonalInfo ): Observable< Response > {
-    console.log('I am in the service ' + JSON.stringify(usr));
+    console.log('I am in the add person info service ' + JSON.stringify( personalInfo
+      ));
     let resp: Observable< Response >;
+
     let header: Headers = new Headers({'Content-Type': 'application/json'});
     let options: RequestOptions = new RequestOptions();
+
     options.headers = header;
 
-    resp = this.http.post( `${this.url}/api/user/login`,
+    resp = this.http.post( `${this.url}/api/personalInfo/registration`,
                             JSON.stringify(personalInfo),
                             options );
     return resp;
 }
-
-
-// // create new person
-//   createPerson(person): Observable<Response> {
-//     let resp: Observable<Response>;
-//     const header: Headers = new Headers({ 'Content-Type': 'application/json' });
-//     header.append('AUTHORIZATION', localStorage.getItem('token'));
-//     const options: RequestOptions = new RequestOptions();
-//     options.headers = header;
-//     resp = this.http.post(
-//       `${this.url}/api/person/create`,
-//       JSON.stringify(person),
-//       options
-//     );
-
-//     return resp;
-//   }
 
   // // get all persons information based on status like 'approved', 'pending'
   // getPersonsByStatus(person): Observable<Response> {

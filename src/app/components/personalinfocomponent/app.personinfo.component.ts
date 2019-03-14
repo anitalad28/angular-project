@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { PersonalInfo, Gender, MaritalStatus, EducationalStatues } from '../../Models/app.person.model';
+import { PersonalInfo, Genders, MaritalStatues, EducationalStatues } from '../../Models/app.person.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Response } from '@angular/http';
 import { PersonalInfoService } from './../../services/app.personalInfo.service';
@@ -12,8 +12,8 @@ import { PersonalInfoService } from './../../services/app.personalInfo.service';
 
 export class PersonalInfoComponent implements OnInit {
   // selection data
-  gender = Gender;
-  maritalStatus = MaritalStatus;
+  gender = Genders;
+  marital = MaritalStatues;
   education = EducationalStatues;
 
   // model
@@ -29,10 +29,7 @@ export class PersonalInfoComponent implements OnInit {
   update: boolean;
 
   constructor( private router: Router, private activatedRoute: ActivatedRoute, private personalInfoService: PersonalInfoService ) {
-    this.add = true;
-    this.update = false;
-
-    this.personalInfo = new PersonalInfo( 0, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0 );
+    this.personalInfo = new PersonalInfo( 0, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0 );
 
     this.personalInfoForm = new FormGroup({
       PersonUniqueId: new FormControl(this.personalInfo.PersonUniqueId),
@@ -52,83 +49,48 @@ export class PersonalInfoComponent implements OnInit {
       MobileNo: new FormControl(this.personalInfo.MobileNo),
       PhysicalDisability: new FormControl(this.personalInfo.PhysicalDisability),
       MaritalStatus: new FormControl(this.personalInfo.MaritalStatus),
-      Education: new FormControl(this.personalInfo.education),
+      EducationalStatus: new FormControl(this.personalInfo.EducationalStatus),
       BirthSign: new FormControl(this.personalInfo.BirthSign)
     });
   }
 
   ngOnInit() {
-    this.PersonId = this.activatedRoute.snapshot.params.uid;
-    if (this.activatedRoute.snapshot.params.act !== undefined) {
-      this.add = false;
-      this.update = true;
+  }
 
-  //     this.PersonalInfoService.getPersonsById(this.PersonId).subscribe(
-  //       (resp: Response) => {
-  //         if (resp.json().status == 200) {
-  //           const person = resp.json().data[0];
-  //           this.person = new Person(
-  //             this.PersonId,
-  //             person.FullName.FirstName,
-  //             person.FullName.MiddleName,
-  //             person.FullName.LastName,
-  //             person.Gender,
-  //             person.DateOfBirth,
-  //             person.Age,
-  //             person.Address.FlatNumber,
-  //             person.Address.SocietyName,
-  //             person.Address.AreaName,
-  //             person.City,
-  //             person.State,
-  //             person.Pincode,
-  //             person.PhoneNo,
-  //             person.MobileNo,
-  //             person.PhysicalDisability,
-  //             person.MaritalStatus,
-  //             person.Education,
-  //             person.BirthSign,
-  //             0
-  //           );
-  //         }
-  //       },
-  //       error => {
-  //         console.log(`Error occurred :==>> ${error}`);
-  //       }
-  //     );
-  //   }
-  // }
+  addPersonalInfo() {
+    const personal = {
+      PersonUniqueId: this.personalInfoForm.value.PersonUniqueId,
+      FirstName: this.personalInfoForm.value.FirstName,
+      MiddleName: this.personalInfoForm.value.MiddleName,
+      LastName: this.personalInfoForm.value.LastName,
+      DateOfBirth: this.personalInfoForm.value.DateOfBirth,
+      Gender: this.personalInfoForm.value.Gender,
+      Age: this.personalInfoForm.value.Age,
+      FlatBunglowNo: this.personalInfoForm.value.FlatBunglowNo,
+      SocietyName: this.personalInfoForm.value.SocietyName,
+      StreetAreaName: this.personalInfoForm.value.StreetAreaName,
+      City: this.personalInfoForm.value.City,
+      State: this.personalInfoForm.value.State,
+      Pincode: this.personalInfoForm.value.Pincode,
+      PhoneNo: this.personalInfoForm.value.PhoneNo,
+      MobileNo: this.personalInfoForm.value.MobileNo,
+      PhysicalDisability: this.personalInfoForm.value.PhysicalDisability,
+      MaritalStatus: this.personalInfoForm.value.MaritalStatus,
+      EducationalStatus: this.personalInfoForm.value.EducationalStatus,
+      BirthSign: this.personalInfoForm.value.BirthSign,
+      loggedInUserId: this.personalInfoForm.value.loggedInUserId
+    };
 
-  // cancel() {
-  //   this._router.navigate(['/auth']);
-  // }
-
-  save() {
-   // if (this.add) {
-      this.personalInfo = this.personalInfoForm.value;
-     // this.person.CreatedBy = parseInt(localStorage.getItem('_v_it'));
-      this.personalInfoService.addPersonalInfo(this.person).subscribe(
+    this.personalInfoService.addPersonalInfo( personal ).subscribe(
         (resp: Response) => {
           if (resp.json().status == 200) {
-            this._router.navigate(['/auth']);
+            this.router.navigate(['../users']);
           }
         },
         error => {
           console.log(`Error occurred :==>> ${error}`);
         }
-      );
-    // } else {
-    //   this.person = this.newPersonForm.value;
-    //   this.person.CreatedBy = parseInt(localStorage.getItem('_v_it'));
-    //   this._newPersonService.updatePerson(this.person).subscribe(
-    //     (resp: Response) => {
-    //       if (resp.json().status == 200) {
-    //         this._router.navigate(['/auth']);
-    //       }
-    //     },
-    //     error => {
-    //       console.log(`Error occurred :==>> ${error}`);
-    //     }
-    //   );
-    // }
-  }
+    );
+ }
+
 }
