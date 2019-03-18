@@ -22,6 +22,8 @@ export class PersonalInfoService {
     let header: Headers = new Headers({'Content-Type': 'application/json'});
     let options: RequestOptions = new RequestOptions();
 
+    header.append('Authorization', 'Bearer ' + sessionStorage.getItem('token'));
+
     options.headers = header;
 
     resp = this.http.post( `${this.url}/api/personalInfo/registration`,

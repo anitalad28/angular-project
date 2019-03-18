@@ -9,11 +9,6 @@
                 <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
                 <div class="menu-list">
                     <ul id="menu-content" class="menu-content collapse out">
-                        <!-- <li>
-                            <a [routerLink]="['../admin-dashboard']">
-                                <i class="fa fa-dashboard fa-lg"></i> Admin Dashboard
-                            </a>
-                        </li> -->
                         <li data-toggle="collapse" data-target="#new" class="collapsed">
                             <a [routerLink]="['../admin-dashboard/users']"><i class="fa fa-users fa-lg"></i> Users </a>
                         </li>
@@ -24,7 +19,10 @@
                         <li data-toggle="collapse" data-target="#new" class="collapsed">
                           <!-- <a [routerLink]="['../add-new-user']"><i class="fa fa-car fa-lg"></i> Add New User <span class="arrow"></span></a> -->
                           <a [routerLink]="['../admin-dashboard/add-personal-info']"><i class="fa fa-user fa-lg"></i> Add personal Info </a>
-                      </li>
+                        </li>
+                        <li data-toggle="collapse" data-target="#new" class="collapsed">
+                          <a [routerLink]="['../login']"><i class="fa fa-sign-out fa-lg"></i>Logout </a>
+                        </li>
                     </ul>
                 </div>
             </div>

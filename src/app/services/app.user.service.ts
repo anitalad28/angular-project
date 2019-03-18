@@ -30,7 +30,7 @@ export class UserService {
     let resp: Observable<Response>;
     let header: Headers = new Headers({'Content-Type': 'application/json'});
 
-    header.append('Authorization', 'Bearer ' + sessionStorage.getItem('token'));
+    header.append('Authorization', 'Bearer ' + localStorage.getItem('token'));
     // 2. Define request option for heder
     // Collection of header values
     let options: RequestOptions = new RequestOptions();
@@ -41,13 +41,33 @@ export class UserService {
     return resp;
   }
 
+  updateUser( user ): Observable<Response> {
+    console.log('I am in the update user service ');
+
+    let resp: Observable<Response>;
+    let header: Headers = new Headers({'Content-Type': 'application/json'});
+
+    header.append('Authorization', 'Bearer ' + localStorage.getItem('token'));
+    // 2. Define request option for heder
+    // Collection of header values
+    let options: RequestOptions = new RequestOptions();
+
+    options.headers = header;
+    resp = this.http.put( `${this.url}/api/user/update`,
+                            JSON.stringify(user),
+                            options );
+
+
+    return resp;
+  }
+
   approveUser( user ): Observable<Response> {
     console.log('I am in the approve user service ');
 
     let resp: Observable<Response>;
     let header: Headers = new Headers({'Content-Type': 'application/json'});
 
-    header.append('Authorization', 'Bearer ' + sessionStorage.getItem('token'));
+    header.append('Authorization', 'Bearer ' + localStorage.getItem('token'));
     // 2. Define request option for heder
     // Collection of header values
     let options: RequestOptions = new RequestOptions();
@@ -57,7 +77,7 @@ export class UserService {
                             JSON.stringify(user),
                             options );
 
-                           
+
     return resp;
   }
 
@@ -67,7 +87,7 @@ export class UserService {
     let resp: Observable<Response>;
     let header: Headers = new Headers({'Content-Type': 'application/json'});
 
-    header.append('Authorization', 'Bearer ' + sessionStorage.getItem('token'));
+    header.append('Authorization', 'Bearer ' + localStorage.getItem('token'));
     // 2. Define request option for heder
     // Collection of header values
     let options: RequestOptions = new RequestOptions();
@@ -77,18 +97,18 @@ export class UserService {
                             JSON.stringify(user),
                             options );
 
-                           
+
     return resp;
   }
 
-   // unique user name checking
-   uniqueUsernameCheck(uname): Observable<Response> {
+  // unique user name checking
+  uniqueUsernameCheck(uname): Observable<Response> {
     console.log('I am in the unique user service ');
 
     let resp: Observable<Response>;
     let header: Headers = new Headers({'Content-Type': 'application/json'});
 
-    header.append('Authorization', 'Bearer ' + sessionStorage.getItem('token'));
+    header.append('Authorization', 'Bearer ' + localStorage.getItem('token'));
     // 2. Define request option for heder
     // Collection of header values
     let options: RequestOptions = new RequestOptions();
@@ -98,18 +118,18 @@ export class UserService {
                             JSON.stringify(uname),
                             options );
 
-                           
+
     return resp;
   }
 
-  // unique user name checking
+  // create a user
   createUser(user): Observable<Response> {
     console.log('I am in the Add new user service ');
 
     let resp: Observable<Response>;
     let header: Headers = new Headers({'Content-Type': 'application/json'});
 
-    header.append('Authorization', 'Bearer ' + sessionStorage.getItem('token'));
+    header.append('Authorization', 'Bearer ' + localStorage.getItem('token'));
     // 2. Define request option for heder
     // Collection of header values
     let options: RequestOptions = new RequestOptions();
@@ -119,8 +139,15 @@ export class UserService {
                             JSON.stringify(user),
                             options );
 
-                           
+
     return resp;
+  }
+
+  logout() {
+    // remove user from local storage to log user out
+    localStorage.removeItem('_v_it');
+    localStorage.removeItem('token');
+    localStorage.removeItem('userid');
   }
 
 }

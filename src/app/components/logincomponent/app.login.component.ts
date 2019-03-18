@@ -13,49 +13,72 @@ import { Response } from '@angular/http';
 
 export class LoginComponent implements OnInit {
   login: Login;
-  loginFrmControl: FormGroup;
-  constructor( private serv: UserService, private router: Router, private act: ActivatedRoute ) {
+  errorLogin: boolean;
+  notAuthorized = false;
+  passwordDoNotMatch: boolean;
+  submitted = false;
 
-    this.login = new Login( '', '' )
+  loginFrmControl: FormGroup;
+  constructor( private userService: UserService, private router: Router, private act: ActivatedRoute ) {
+    this.login = new Login( '', '' );
+
     this.loginFrmControl = new FormGroup({
-      UserName: new FormControl(
-        this.login.UserName,
-        Validators.compose([
-          Validators.required,
-          Validators.pattern('[A-Z][A-Z-a-z ]{0,19}'),
-          Validators.compose([NumericNonNegativeValidator.checkSpace])
-        ])
-      ),
-      Password: new FormControl(
-        this.login.Password,
-        Validators.compose([
-          Validators.required
-        ])
-      )
+      UserName: new FormControl( this.login.UserName, Validators.required ),
+      Password: new FormControl( this.login.Password, Validators.required )
     });
   }
 
-  ngOnInit(): void {}
+  // convenience getter for easy access to form fields
+  get formControl() { return this.loginFrmControl.controls; }
+
+  ngOnInit(): void {
+    // reset login status
+    this.userService.logout();
+  }
 
   authenticateUser(): void {
-      //this.login = this.loginFrmControl.value;
-  console.log('I am here' + JSON.stringify(this.loginFrmControl.value)) ;
+    this.submitted = true;
 
-      this.serv.authUser(this.loginFrmControl.value).subscribe(
-        
-        (resp: Response) => {
-            console.log('Service Response - ' + JSON.stringify(resp.json()) );
-            console.log('Service Response message: ' + resp.json().message);
-            console.log('Service Response token:' + resp.json().token);
-            console.log('Service Response role: ' + resp.json().role);
-            console.log('Service Response uid:' + resp.json().uid);
-            sessionStorage.setItem('token', resp.json().token);
-            this.navigateToAdminDashboard();
-        },
-        error => {
-            console.log(`Error occurred ${error}`);
+    // stop here if form is invalid
+    if (this.loginFrmControl.invalid) {
+      return;
+    }
+
+    this.notAuthorized = false;
+    this.passwordDoNotMatch = false;
+
+    this.userService.authUser(this.loginFrmControl.value).subscribe(
+      (resp: Response) => {
+        console.log('Service Response - ' + JSON.stringify(resp.json()) );
+        console.log('Service Response message: ' + resp.json().message);
+        console.log('Service Response token:' + resp.json().token);
+        console.log('Service Response role: ' + resp.json().role);
+        console.log('Service Response uid:' + resp.json().uid);
+
+        if (resp.json().status ===  200) {
+          localStorage.setItem('token', resp.json().token);
+          localStorage.setItem('userid', resp.json().uid);
+
+          if (resp.json().role === 'Admin') {
+            localStorage.setItem('_v_it', '1');
+          } else if (resp.json().role === 'Operator') {
+            localStorage.setItem('_v_it', '2');
+          } else {
+            localStorage.setItem('_v_it', '3');
+          }
+          this.navigateToAdminDashboard();
+        } else {
+          if (resp.json().status ===  405) {
+            this.passwordDoNotMatch = true;
+           } else if (resp.json().status === 404) {
+            this.notAuthorized = true;
+           }
         }
-      );
+      },
+      error => {
+        console.log(`Error occurred ${error}`);
+      }
+    );
   }
 
   navigateToAdminDashboard(): void {

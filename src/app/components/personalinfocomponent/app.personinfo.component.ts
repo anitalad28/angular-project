@@ -32,7 +32,7 @@ export class PersonalInfoComponent implements OnInit {
     this.personalInfo = new PersonalInfo( 0, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0 );
 
     this.personalInfoForm = new FormGroup({
-      PersonUniqueId: new FormControl(this.personalInfo.PersonUniqueId),
+      PersonUniqueId: new FormControl({ value: this.personalInfo.PersonUniqueId, disabled: true}),
       FirstName: new FormControl(this.personalInfo.FirstName),
       MiddleName: new FormControl(this.personalInfo.MiddleName),
       LastName: new FormControl(this.personalInfo.LastName),
@@ -84,7 +84,7 @@ export class PersonalInfoComponent implements OnInit {
     this.personalInfoService.addPersonalInfo( personal ).subscribe(
         (resp: Response) => {
           if (resp.json().status == 200) {
-            this.router.navigate(['../users']);
+            this.router.navigate(['../admin-dashboard/users']);
           }
         },
         error => {

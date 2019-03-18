@@ -25,7 +25,7 @@ export class UserComponent implements OnInit {
   // define formgroup
   newUserForm: FormGroup;
 
-  constructor( private _router: Router, private _newUserService: UserService ) {
+  constructor( private router: Router, private userService: UserService ) {
     console.log( 'Roles:-' + Roles );
     this.user = new User( 0,'', '', '', '', '');
 
@@ -43,7 +43,7 @@ export class UserComponent implements OnInit {
   checkUniqueUserName() {
     const username = this.newUserForm.value.UserName;
 
-    this._newUserService.uniqueUsernameCheck({ UserName: username }).subscribe(
+    this.userService.uniqueUsernameCheck({ UserName: username }).subscribe(
       (resp: Response) => {
         if (resp.json().status == 200) {
           this.uniqueUserName = true;
@@ -66,13 +66,14 @@ export class UserComponent implements OnInit {
       UserName : this.newUserForm.value.UserName,
       EmailAddress: this.newUserForm.value.EmailAddress,
       Password: this.newUserForm.value.Password,
-      Role: this.newUserForm.value.Role
+      Role: this.newUserForm.value.Role,
+      IsApproved: 'Pending'
     };
-
-    this._newUserService.createUser(user).subscribe(
+    console.log('ADD NEW USER' + user);
+    this.userService.createUser(user).subscribe(
       (resp: Response) => {
         if (resp.json().status == 200) {
-          this._router.navigate([`/admin-dashboard/users/`]);
+          this.router.navigate([`/admin-dashboard/users/`]);
         }
       },
       error => {
