@@ -5,6 +5,7 @@ import { User, Roles } from '../../Models/app.user.model';
 import { UserService } from './../../services/app.user.service';
 import { Response } from '@angular/http';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NumericNonNegativeValidator } from './../customvalidators/app.custom.validator';
 
 @Component({
   selector: 'app-users-component',
@@ -14,9 +15,10 @@ export class UsersComponent implements OnInit {
     user: User;
     users: Array<User>;
     tableHeaders: Array<string>;
+    submitted = false;
 
     // error message
-   uniqueUserName: boolean = false;
+   uniqueUserName: boolean;
 
    // roles for select list
     roles = Roles;
@@ -24,28 +26,31 @@ export class UsersComponent implements OnInit {
     // define formgroup
     newUserForm: FormGroup;
 
-    // button control for Add and Update
-    add: boolean;
-    update: boolean;
-
     constructor( private router: Router, private activatedRoute: ActivatedRoute, private userService: UserService) {
         this.user = new User( 0, '', '', '', '', '');
         this.users = new Array<User>();
         this.tableHeaders = Array<string>();
+        this.uniqueUserName = false;
 
         console.log( 'Roles:-' + Roles );
 
-        this.add = true;
-        this.update = false;
-
         this.newUserForm = new FormGroup({
-          UserId: new FormControl(this.user.UserName, Validators.required),
-          UserName: new FormControl(this.user.UserName, Validators.required),
-          Password: new FormControl(this.user.Password, Validators.required),
-          EmailAddress: new FormControl(this.user.EmailAddress, Validators.required),
-          Role: new FormControl(this.user.Role)
+          UserId: new FormControl( this.user.UserId, Validators.required ),
+          UserName: new FormControl( this.user.UserName, Validators.required ),
+          Password: new FormControl( this.user.Password, Validators.required ),
+          EmailAddress: new FormControl( this.user.EmailAddress, Validators.required ),
+          Role: new FormControl(
+            this.user.Role,
+            Validators.compose([
+              Validators.required,
+              Validators.compose([NumericNonNegativeValidator.checkRole])
+            ])
+          )
       });
     }
+
+    // convenience getter for easy access to form fields
+    get userFormControl() { return this.newUserForm.controls; }
 
     // The method will be immedicatly invoked after the constructor
     ngOnInit(): void {
@@ -59,10 +64,6 @@ export class UsersComponent implements OnInit {
      // this.UserId = this.activatedRoute.snapshot.params.uid;
       console.log( 'activatedRoute:: ' + JSON.stringify( this.activatedRoute.snapshot.params )  );
 
-      // if (this._activatedRoute.snapshot.params.act !== undefined) {
-      //   this.add = false;
-      //   this.update = true;
-      // Make call to
       this.loadData();
     }
 
@@ -71,7 +72,7 @@ export class UsersComponent implements OnInit {
 
       this.userService.uniqueUsernameCheck({ UserName: username }).subscribe(
         (resp: Response) => {
-          if (resp.json().status == 200) {
+          if (resp.json().status === 200) {
             this.uniqueUserName = true;
           } else {
             this.uniqueUserName = false;
@@ -79,14 +80,23 @@ export class UsersComponent implements OnInit {
         },
         error => {
           this.uniqueUserName = false;
-          console.log(`Error occurred :==>> ${error}`);
+          console.log(`Error occurred : ${error}`);
         }
       );
     }
 
-    cancel() {}
+    cancel() {
+      this.user = new User( 0, '', '', '', '', '');
+    }
 
     addNewUser() {
+      this.submitted = true;
+
+      // stop here if form is invalid
+      if (this.newUserForm.invalid) {
+        return;
+      }
+
       const user = {
         UserId : this.newUserForm.value.UserId,
         UserName : this.newUserForm.value.UserName,
@@ -135,7 +145,7 @@ export class UsersComponent implements OnInit {
       console.log(usr);
 
       this.userService.approveUser( usr ).subscribe(
-          (resp: Response)=>{
+          (resp: Response ) => {
              this.loadData();
           },
          error => {
@@ -160,7 +170,7 @@ export class UsersComponent implements OnInit {
 
     loadData(): void {
         this.userService.getUsers().subscribe(
-            (resp: Response)=>{
+            (resp: Response ) => {
                 this.users = resp.json().data;
                 console.log( 'Users: ' + JSON.stringify( resp.json().data ) );
             },

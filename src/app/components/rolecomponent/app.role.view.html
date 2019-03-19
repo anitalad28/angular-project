@@ -1,0 +1,46 @@
+<div class="container">
+    <div>
+				<h3>Add / Update User</h3>
+			</div>
+			<div class="card-body">
+          <form class="col-md-8 offset-md-2" name="roleForm" [formGroup]="roleForm" >
+              <div class="form-group">
+                <label for="Role">Role Name</label>
+                 <input type="text" name="Role" class="form-control" id="RolName" formControlName="RoleName" (change)="checkUniqueRole()" />
+                  <div *ngIf="roleForm.controls.RoleName.dirty && !roleForm.controls.RoleName.valid" class="alert alert-danger">
+                    <p *ngIf="roleForm.controls.RoleName.errors.required">
+                      Role is required
+                    </p>
+                  </div>
+                <div class="alert alert-danger" *ngIf="uniqueRole">
+                  <p> Role Must be Unique </p>
+                </div>
+            </div>
+
+              <div class="form-group">
+                  <input type="button" value="Cancel" class="btn btn-danger" (click)="cancel()" /> &nbsp;
+                  <input type="submit" value="Add Role" class="btn btn-success" />
+              </div>
+          </form>
+		</div>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <!-- <tr>
+                <th *ngFor="let c of tableHeaders"> {{ c }} </th>
+                <th> Action </th>
+            </tr> -->
+            <tr>
+                <th>S. No.</th>
+                <th>Role Type</th>
+              </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let r of roles,let i = index">
+                <td>{{ i+1 }}</td>
+                <td>
+                  <span>{{ r['RoleName'] }}</span>
+                </td>
+              </tr>
+        </tbody>
+    </table>
+</div>

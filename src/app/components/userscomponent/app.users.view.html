@@ -6,50 +6,50 @@
           <form class="col-md-8 offset-md-2" name="newUserForm" [formGroup]="newUserForm" >
               <div class="form-group">
                   <label for="UserName">User Id <span class="required"> * </span></label>
-                  <input type="text" name="UserId" class="form-control" id="UserId" formControlName="UserId" [ngModel]="user.UserId" autocomplete="off" />
-                  <div *ngIf=" newUserForm.controls.UserId.dirty && !newUserForm.controls.UserId.valid" class="alert alert-danger">
-                      <p *ngIf="newUserForm.controls.UserId.errors.required">  UserId is required </p>
+                  <input type="text" name="UserId" class="form-control" id="UserId" formControlName="UserId" [ngModel]="user.UserId" autocomplete="off" [ngClass]="{ 'is-invalid': submitted && userFormControl.UserId.errors }" />
+                  <div *ngIf="submitted && userFormControl.UserId.errors" class="invalid-feedback">
+                      <div *ngIf="userFormControl.UserId.errors.required">UserId is required </div>
                   </div>
               </div>
 
               <div class="form-group">
                   <label for="UserName">User Name <span class="required"> * </span></label>
-                  <input type="text" id="UserName"  name="UserName" class="form-control" id="UserName" formControlName="UserName" [ngModel]="user.UserName" autocomplete="off" (change)="checkUniqueUserName()" />
-                  <div *ngIf="newUserForm.controls.UserName.dirty && !newUserForm.controls.UserName.valid " class="alert alert-danger">
-                      <p *ngIf="newUserForm.controls.UserName.errors.required"> Username is required </p>
+                  <input type="text" id="UserName"  name="UserName" class="form-control" id="UserName" formControlName="UserName" [ngModel]="user.UserName" autocomplete="off" (change)="checkUniqueUserName()" [ngClass]="{ 'is-invalid': submitted && userFormControl.UserName.errors }" />
+                  <div *ngIf="submitted && userFormControl.UserName.errors" class="invalid-feedback">
+                      <div *ngIf="userFormControl.UserName.errors.required">Username is required </div>
                   </div>
                   <div class="alert alert-danger" *ngIf="uniqueUserName"> <p> Username already exist </p> </div>
               </div>
 
-              <!-- email-->
               <div class="form-group">
                   <label for="EmailAddress">Email <span class="required"> * </span></label>
-                  <input type="email" name="EmailAddress" class="form-control" id="EmailAddress" formControlName="EmailAddress" [ngModel]="user.EmailAddress" autocomplete="off" />
-                  <div *ngIf="newUserForm.controls.EmailAddress.dirty && !newUserForm.controls.EmailAddress.valid" class="alert alert-danger">
-                    <p *ngIf="newUserForm.controls.Email.errors.required"> Email is required </p>
+                  <input type="email" name="EmailAddress" class="form-control" id="EmailAddress" formControlName="EmailAddress" [ngModel]="user.EmailAddress" autocomplete="off" [ngClass]="{ 'is-invalid': submitted && userFormControl.EmailAddress.errors }" />
+                  <div *ngIf="submitted && userFormControl.EmailAddress.errors" class="invalid-feedback">
+                      <div *ngIf="userFormControl.EmailAddress.errors.required">Email Address is required </div>
                   </div>
               </div>
 
-              <!-- password-->
               <div class="form-group">
                   <label for="Password">Password <span class="required"> * </span></label>
-                  <input type="password" name="Password" class="form-control" id="Password" autocomplete="off" [ngModel]="user.Password" formControlName="Password" />
-                  <div *ngIf="newUserForm.controls.Password.dirty && !newUserForm.controls.Password.valid" class="alert alert-danger">
-                    <p *ngIf="newUserForm.controls.Password.errors.required"> Password is required </p>
+                  <input type="password" name="Password" class="form-control" id="Password" autocomplete="off" [ngModel]="user.Password" formControlName="Password" [ngClass]="{ 'is-invalid': submitted && userFormControl.Password.errors }" />
+                  <div *ngIf="submitted && userFormControl.Password.errors" class="invalid-feedback">
+                      <div *ngIf="userFormControl.Password.errors.required">Password is required </div>
                   </div>
               </div>
-              <!-- end of password-->
 
-              <!-- role list start-->
               <div class="form-group">
                   <label for="Role">Role <span class="required"> * </span></label>
                   <select name="Role" class="form-control" id="Role" formControlName="Role" [ngModel]="user.Role">
-                    <option selected="selected" value="">Please select Role</option>
+                    <option value="">Please select Role</option>
                     <option *ngFor="let r of roles" value="{{ r }}">{{ r }}</option>
                   </select>
+                  <!-- <div *ngIf="userFormControl.Role.invalid" class="alert alert-danger">
+                    <p *ngIf="userFormControl.Role.errors.invalid">
+                      Please select role
+                    </p>
+                  </div> -->
               </div>
 
-              <!-- role list end-->
               <div class="form-group">
                   <input type="button" value="Cancel" class="btn btn-danger" (click)="cancel()" />&nbsp;&nbsp;
                   <input type="button" value="Add User" class="btn btn-success" (click)="addNewUser()"/> &nbsp;&nbsp;
@@ -66,12 +66,12 @@
             </tr>
         </thead>
         <tbody>
-            <!-- <tr *ngFor="let p of products" (click)="getSelectedRow(p)"> -->
-            <tr *ngFor="let u of users" (click)="getselectedrow( u )">
+          <tr *ngFor="let u of users" (click)="getselectedrow( u )">
                 <td *ngFor="let c of tableHeaders"> {{ u[c] }} </td>
                 <td>
                     <input type="button" value="Approve" (click)="approve(u)" class="btn btn-success">&nbsp;
-                    <input type="button" value="Reject" (click)="reject(u)" class="btn btn-danger">
+                    <input type="button" value="Reject" (click)="reject(u)" class="btn btn-danger">&nbsp;
+                    <input type="button" value="Update" (click)="getselectedrow(u)" class="btn btn-success">
                 </td>
             </tr>
         </tbody>

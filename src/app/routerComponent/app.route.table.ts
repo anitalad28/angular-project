@@ -5,6 +5,7 @@ import { AdminDashboardComponent } from './../components/admincomponent/app.admi
 import { UsersComponent } from './../components/userscomponent/app.users.component';
 import { UserComponent } from '../components/usercomponent/app.user.component';
 import { PersonalInfoComponent } from '../components/personalinfocomponent/app.personinfo.component';
+import { RolesComponent } from '../components/rolecomponent/app.role.component';
 // import { AppGaurdService } from "../../services/app.test.gaurd.service";
 // import { ErrorComponent } from "./app.error.component";
 
@@ -26,6 +27,7 @@ const routes: Routes = [
       children: [
         { path: 'users', component: UsersComponent},
         { path: 'add-new-user', component: UserComponent},
+        { path: 'add-role', component: RolesComponent},
         { path: 'update-user', component: UserComponent},
         { path: 'add-personal-info', component: PersonalInfoComponent},
       ]

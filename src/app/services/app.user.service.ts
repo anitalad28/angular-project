@@ -76,8 +76,6 @@ export class UserService {
     resp = this.http.put( `${this.url}/api/user/approve`,
                             JSON.stringify(user),
                             options );
-
-
     return resp;
   }
 
